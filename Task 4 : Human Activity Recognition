@@ -1,0 +1,62 @@
+Step 1: Import Libraries
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler, LabelEncoder
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense, Dropout
+from tensorflow.keras.utils import to_categorical
+
+
+Step 2: Load and Preprocess Data
+Assuming you have a dataset containing sensor data (e.g., accelerometer and gyroscope readings) and corresponding activity labels, load and preprocess the data. The features should be numerical, and the labels should be categorical.
+# Load your dataset
+# Replace 'your_dataset.csv' with the path to your dataset
+dataset = pd.read_csv('your_dataset.csv')
+
+# Extract features and labels
+X = dataset.iloc[:, :-1].values
+y = dataset.iloc[:, -1].values
+
+# Encode labels into numerical values
+le = LabelEncoder()
+y = le.fit_transform(y)
+
+# Standardize features
+scaler = StandardScaler()
+X = scaler.fit_transform(X)
+
+# One-hot encode labels
+y = to_categorical(y)
+
+
+Step 3: Data Splitting
+# Split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+
+Step 4: Model Architecture
+model = Sequential()
+
+model.add(Dense(64, input_dim=X_train.shape[1], activation='relu'))
+model.add(Dropout(0.5))
+model.add(Dense(32, activation='relu'))
+model.add(Dense(y_train.shape[1], activation='softmax'))
+
+
+Step 5: Compile and Train the Model
+model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+
+model.fit(X_train, y_train, epochs=20, batch_size=32, validation_data=(X_test, y_test))
+
+
+Step 6: Evaluate the Model
+loss, accuracy = model.evaluate(X_test, y_test)
+print(f"Test Loss: {loss:.4f}, Test Accuracy: {accuracy*100:.2f}%")
+
+
+Step 7: Prediction (Optional)
+# If you want to make predictions on new data
+new_data = scaler.transform(new_data)  # Standardize new data using the same scaler
+predictions = model.predict(new_data)
+predicted_labels = np.argmax(predictions, axis=1)
