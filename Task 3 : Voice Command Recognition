@@ -1,0 +1,62 @@
+Step 1: Install Required Libraries
+pip install SpeechRecognition
+
+
+Step 2: Code Implementation
+import speech_recognition as sr
+
+def recognize_command():
+    # Initialize the recognizer
+    recognizer = sr.Recognizer()
+
+    # Capture audio from the microphone
+    with sr.Microphone() as source:
+        print("Say something...")
+        recognizer.adjust_for_ambient_noise(source)
+        audio = recognizer.listen(source, timeout=5)
+
+    try:
+        # Use Google Speech Recognition to convert audio to text
+        command = recognizer.recognize_google(audio)
+        print(f"Command recognized: {command}")
+        execute_command(command)
+    except sr.UnknownValueError:
+        print("Sorry, could not understand audio.")
+    except sr.RequestError as e:
+        print(f"Error with the speech recognition service; {e}")
+
+def execute_command(command):
+    # Define actions based on recognized commands
+    if "open" in command:
+        open_application(command)
+    elif "search" in command:
+        search_web(command)
+    else:
+        print("Command not recognized.")
+
+def open_application(command):
+    # Extract the application name from the command and open it
+    # You can customize this part based on the applications you want to open
+    if "notepad" in command:
+        os.system("notepad.exe")
+    elif "calculator" in command:
+        os.system("calc.exe")
+    else:
+        print("Application not supported.")
+
+def search_web(command):
+    # Extract the search query from the command and perform a web search
+    query = command.replace("search", "").strip()
+    search_url = f"https://www.google.com/search?q={query}"
+    webbrowser.open(search_url)
+
+if __name__ == "__main__":
+    recognize_command()
+
+
+Step 3: Run the Code
+Execute the script, and it will prompt you to speak a command. The script will recognize the command using Google Speech Recognition and attempt to execute it.
+
+Note: Ensure that your microphone is properly connected and configured. Also, you may need to modify the execute_command function to match the applications you want to open or actions you want to perform based on recognized commands.
+
+Keep in mind that this is a simple example, and for more complex tasks, you might want to explore more advanced speech recognition models or custom training based on your specific use case.
