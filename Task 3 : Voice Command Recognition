@@ -1,10 +1,17 @@
 Step 1: Install Required Libraries
+Install the necessary libraries by running the following command in your terminal or command prompt:
 pip install SpeechRecognition
 
 
 Step 2: Code Implementation
+Create a Python script and import the required libraries. Here's an example code:
 import speech_recognition as sr
+import os
+import webbrowser
 
+
+Step 3: Define Functions for Voice Command Recognition
+Define functions to capture audio, recognize speech, and execute actions based on recognized commands:
 def recognize_command():
     # Initialize the recognizer
     recognizer = sr.Recognizer()
@@ -54,9 +61,9 @@ if __name__ == "__main__":
     recognize_command()
 
 
-Step 3: Run the Code
+Step 4: Run the Code
 Execute the script, and it will prompt you to speak a command. The script will recognize the command using Google Speech Recognition and attempt to execute it.
+python your_script_name.py
+
 
 Note: Ensure that your microphone is properly connected and configured. Also, you may need to modify the execute_command function to match the applications you want to open or actions you want to perform based on recognized commands.
-
-Keep in mind that this is a simple example, and for more complex tasks, you might want to explore more advanced speech recognition models or custom training based on your specific use case.
